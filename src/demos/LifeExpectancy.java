@@ -30,7 +30,7 @@ public class LifeExpectancy extends PApplet {
 	List<Marker> countryMarkers;
 
 	public void setup() {
-		size(800, 600, OPENGL);
+		size(800, 600/*, OPENGL*/);
 		map = new UnfoldingMap(this, 50, 50, 700, 500, new Google.GoogleMapProvider());
 		MapUtils.createDefaultEventDispatcher(this, map);
 
