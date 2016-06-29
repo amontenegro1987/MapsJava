@@ -34,6 +34,10 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		
 		// TODO: Implement this method
 		
+		//Draws a center circle for land quakes
+		    float radius = (float)((double)getRadius()*0.75);
+		    pg.ellipse(x-radius,y-radius,radius*2,radius*2);
+		
 	}
 	
 

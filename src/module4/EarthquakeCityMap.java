@@ -1,6 +1,7 @@
 package module4;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -20,8 +21,8 @@ import processing.core.PApplet;
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
- * Date: July 17, 2015
+ * @author Alejandro Montenegro
+ * Date: June 26, 2016
  * */
 public class EarthquakeCityMap extends PApplet {
 	
@@ -80,7 +81,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -161,13 +162,14 @@ public class EarthquakeCityMap extends PApplet {
 	// and returns true.  Notice that the helper method isInCountry will
 	// set this "country" property already.  Otherwise it returns false.
 	private boolean isLand(PointFeature earthquake) {
+		//Loop over all countries (countries are located on the country markers)
+		for(Marker country :countryMarkers){
+			if(isInCountry(earthquake, country)){
+				return true;
+			}
+		}
+		return false;  //The earthquake was not in any country
 		
-		// IMPLEMENT THIS: loop over all countries to check if location is in any of them
-		
-		// TODO: Implement this method using the helper method isInCountry
-		
-		// not inside any country
-		return false;
 	}
 	
 	// prints countries with number of earthquakes
@@ -178,7 +180,32 @@ public class EarthquakeCityMap extends PApplet {
 	// And LandQuakeMarkers have a "country" property set.
 	private void printQuakes() 
 	{
-		// TODO: Implement this method
+		int oceanQuakesCount = 0;
+		for(Marker earthquake: quakeMarkers){
+			//If ocurred in the ocean
+			if(earthquake.getProperty("country") == null){
+				oceanQuakesCount++;
+			}
+			//If Ocurred in land
+			else{
+				countQuakesOnLand(earthquake.getProperty("country").toString());
+			}
+		}
+		for(String key: hm.keySet()){
+			System.out.println(key + " : "+hm.get(key));
+		}
+		
+		System.out.println("OCEAN QUAKES: "+ oceanQuakesCount);
+		
+	}
+	
+	private void countQuakesOnLand(String country){
+		if(!hm.containsKey(country)){
+			hm.put(country,1);
+		}
+		else{
+			hm.put(country, hm.get(country)+1);
+		}
 	}
 	
 	
@@ -216,5 +243,5 @@ public class EarthquakeCityMap extends PApplet {
 		}
 		return false;
 	}
-
+   HashMap <String, Integer> hm = new HashMap<String, Integer>();
 }
